@@ -13,4 +13,9 @@ class ShareModel extends Model
         'create_date',
     ];
     protected $table = 'shares';
+
+    public function user()
+    {
+        return $this->belongsTo('UserModel', 'user_id');
+    }
 }

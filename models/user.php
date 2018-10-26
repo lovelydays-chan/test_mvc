@@ -11,4 +11,9 @@ class UserModel extends Model
             'password',
     ];
     protected $table = 'users';
+
+    public function shares()
+    {
+        return $this->hasMany('shareModel', 'user_id');
+    }
 }
