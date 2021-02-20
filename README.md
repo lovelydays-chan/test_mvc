@@ -67,6 +67,6 @@ Running Application
 ------------------------------------
 Open the browser
 ```bash
-http://mvc-test.local.local:8111
+http://mvc-test.local:8111
 ```
 
