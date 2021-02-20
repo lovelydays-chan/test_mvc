@@ -1,15 +1,13 @@
 <?php
 
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
 require_once 'autoload.php';
-$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
-require 'constants.php';
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $uri = str_replace('//', '/', str_replace(basename(__DIR__), '', $_SERVER['REQUEST_URI']));
 // Strip query string (?foo=bar) and decode URIs

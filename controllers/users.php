@@ -23,17 +23,17 @@ class UsersController extends Controller
             'password' => $this->request('password'),
         ];
         $validator = (new Validator())->make(
-                $data,
-                $rules = [
-                    'name' => ['required', 'min:3'],
-                    'email' => ['required', 'email'],
-                    'password' => ['required'],
-                ]
-            );
+            $data,
+            $rules = [
+                'name' => ['required', 'min:3'],
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]
+        );
         if ($validator->fails()) {
             $data = [
-                    'errors' => $validator->errors(),
-                ];
+                'errors' => $validator->errors(),
+            ];
             $this->returnView('board.register', $data);
             exit;
         }
@@ -41,7 +41,7 @@ class UsersController extends Controller
             $user = new UserModel();
             $data['password'] = sha1($this->request('password'));
             $user::insert($data);
-            header('Location: '.ROOT_URL.'board/users/login');
+            header('Location: /board/users/login');
             exit;
         } catch (\Exception $e) {
             Messages::setMsg('Save Data Error.', 'error');
@@ -56,16 +56,16 @@ class UsersController extends Controller
             'password' => $this->request('password'),
         ];
         $validator = (new Validator())->make(
-                $data,
-                $rules = [
-                    'email' => ['required', 'email'],
-                    'password' => ['required'],
-                ]
-            );
+            $data,
+            $rules = [
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]
+        );
         if ($validator->fails()) {
             $data = [
-                    'errors' => $validator->errors(),
-                ];
+                'errors' => $validator->errors(),
+            ];
             $this->returnView('board.login', $data);
             exit;
         }
@@ -79,7 +79,7 @@ class UsersController extends Controller
                 'name' => $result['name'],
                 'email' => $result['email'],
             ];
-            header('Location: '.ROOT_URL.'board');
+            header('Location: /board');
             exit;
         }
         Messages::setMsg('Login Error.', 'error');
@@ -93,6 +93,6 @@ class UsersController extends Controller
 
         session_destroy();
         // Redirect
-        header('Location: '.ROOT_URL);
+        header('Location: /');
     }
 }

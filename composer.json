@@ -1,6 +1,5 @@
 {
-
-    "require": {
-        "lnw/core": "dev-master"
-    }
+  "require": {
+    "lnw/core": "dev-master"
+  }
 }

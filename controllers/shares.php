@@ -13,7 +13,7 @@ class SharesController extends Controller
     protected function add()
     {
         if (!isset($_SESSION['is_logged_in'])) {
-            header('Location: '.ROOT_URL.'board/shares');
+            header('Location:/board/shares');
             exit;
         }
         $data = [
@@ -22,17 +22,17 @@ class SharesController extends Controller
             'link' => $this->request('link'),
         ];
         $validator = (new Validator())->make(
-                $data,
-                $rules = [
-                    'title' => ['required'],
-                    'body' => ['required'],
-                    'link' => ['required'],
-                ]
-            );
+            $data,
+            $rules = [
+                'title' => ['required'],
+                'body' => ['required'],
+                'link' => ['required'],
+            ]
+        );
         if ($validator->fails()) {
             $data = [
-                    'errors' => $validator->errors(),
-                ];
+                'errors' => $validator->errors(),
+            ];
             $this->returnView('board.add', $data);
             exit;
         }
@@ -41,7 +41,7 @@ class SharesController extends Controller
             $data['user_id'] = $_SESSION['user_data']['id'];
             $data['create_date'] = date('Y-m-d H:i:s');
             $board::insert($data);
-            header('Location: '.ROOT_URL.'board/shares');
+            header('Location: /board/shares');
             exit;
         } catch (\Exception $e) {
             Messages::setMsg('Save Data Error.', 'error');

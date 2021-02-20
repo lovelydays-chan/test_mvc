@@ -1,0 +1,56 @@
+version: '3.5'
+
+services:
+  mvc-app:
+    build:
+      context: '.'
+      dockerfile: 'docker/Dockerfile'
+      args:
+        uid: ${UID}
+    container_name: mvc-app
+    environment:
+      - APACHE_RUN_USER=#${UID}
+      - APACHE_RUN_GROUP=#${UID}
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8111:80
+    networks:
+      backend:
+        aliases:
+          - mvc-app
+  mvc-mariadb:
+    image: mariadb:10.5.8
+    container_name: mvc-mariadb
+    restart: always
+    ports:
+      - 8112:3306
+    volumes:
+      - /var/lib/mysql
+    networks:
+      backend:
+        aliases:
+          - db
+    environment:
+      - MYSQL_ROOT_PASSWORD=cp1234
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+  mvc-pma:
+    image: phpmyadmin/phpmyadmin:5
+    container_name: mvc-pma
+    depends_on:
+      - mvc-mariadb
+    restart: always
+    ports:
+      - 8113:80
+    networks:
+      backend:
+        aliases:
+          - phpmyadmin
+    environment:
+      PMA_HOST: mvc-mariadb
+      PMA_PORT: 3306
+networks:
+  backend:
+    name: mvc-network
