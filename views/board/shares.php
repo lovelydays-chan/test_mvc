@@ -6,7 +6,7 @@
 
 	<div class="container">
 
-		<div class="row">
+
 			<?php Messages::display(); ?>
 			<div>
 				<?php if (isset($_SESSION['is_logged_in'])) : ?>
@@ -23,7 +23,6 @@
 					</div>
 				<?php endforeach; ?>
 			</div>
-		</div>
 
 	</div><!-- /.container -->
 	<?php require view('layouts.footer') ?>

@@ -95,4 +95,15 @@ class UsersController extends Controller
         // Redirect
         header('Location: /');
     }
+    public function showProfile()
+    {
+        $data = [
+            'full_name' => 'Channarong Phonkhan',
+            'email' => 'channaxx@gmail.com',
+            'phone' => ' - ',
+            'mobile' => '089-xxx-4321',
+            'address' => 'Bang Muang,Samut Prakan,Thailand'
+        ];
+        $this->returnView('profile.index',$data);
+    }
 }

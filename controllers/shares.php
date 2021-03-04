@@ -5,6 +5,12 @@ use Lnw\Core\Validator;
 
 class SharesController extends Controller
 {
+    public function __construct(){
+        if (!isset($_SESSION['is_logged_in'])) {
+            header('Location:/board/shares');
+            exit;
+        }
+    }
     protected function index()
     {
         $this->returnView('board.add', false);
@@ -12,10 +18,6 @@ class SharesController extends Controller
 
     protected function add()
     {
-        if (!isset($_SESSION['is_logged_in'])) {
-            header('Location:/board/shares');
-            exit;
-        }
         $data = [
             'title' => $this->request('title'),
             'body' => $this->request('body'),
