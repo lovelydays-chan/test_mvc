@@ -1,8 +1,8 @@
 <html>
-<?php require 'layouts/header.php' ?>
+<?php require view('layouts.header') ?>
 
 <body>
-  <?php require 'layouts/menu.php' ?>
+  <?php require view('layouts.menu') ?>
 
   <div class="container">
     <?php Messages::display(); ?>
@@ -34,7 +34,7 @@
     </div>
 
   </div><!-- /.container -->
-  <?php require 'layouts/footer.php' ?>
+  <?php require view('layouts.footer') ?>
 </body>
 
 </html>

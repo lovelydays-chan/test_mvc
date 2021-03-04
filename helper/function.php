@@ -1218,3 +1218,33 @@ if (!function_exists('with')) {
         return null === $callback ? $value : $callback($value);
     }
 }
+
+if (!function_exists('view')) {
+    /**
+     * Return the given value, optionally passed through the given callback.
+     *
+     * @param mixed         $value
+     * @param callable|null $callback
+     *
+     * @return mixed
+     */
+    function view($value)
+    {
+        return 'views/' . str_replace('.', '/', $value) . ".php";
+    }
+}
+
+if (!function_exists('asset')) {
+    /**
+     * Return the given value, optionally passed through the given callback.
+     *
+     * @param mixed         $value
+     * @param callable|null $callback
+     *
+     * @return mixed
+     */
+    function asset($value)
+    {
+        return 'assets/' . $value;
+    }
+}
