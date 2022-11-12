@@ -5,7 +5,8 @@
   <?php require view('layouts.menu') ?>
 
   <div class="container">
-    <?php Messages::display(); ?>
+    <?php //Messages::display(); 
+    ?>
     <div class="row">
       <div class="panel panel-default">
         <div class="panel-heading">

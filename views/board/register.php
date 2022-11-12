@@ -7,7 +7,8 @@
   <div class="container">
 
     <div class="row">
-      <?php Messages::display(); ?>
+      <?php // //Messages::display();
+      ?>
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">Register User</h3>

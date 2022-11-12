@@ -2,6 +2,8 @@
 
 use Lnw\Core\Controller;
 use Lnw\Core\Validator;
+use Validate\LoginValidate;
+use Validate\AddUserValidate;
 
 class UsersController extends Controller
 {
@@ -15,62 +17,41 @@ class UsersController extends Controller
         $this->returnView('board.register', false);
     }
 
-    protected function add()
+    protected function add($request)
     {
+        $validator = new AddUserValidate($request);
         $data = [
-            'name' => $this->request('name'),
-            'email' => $this->request('email'),
-            'password' => $this->request('password'),
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => $request['password'],
         ];
-        $validator = (new Validator())->make(
-            $data,
-            $rules = [
-                'name' => ['required', 'min:3'],
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]
-        );
         if ($validator->fails()) {
             $data = [
                 'errors' => $validator->errors(),
             ];
-            $this->returnView('board.register', $data);
-            exit;
+            $this->redirectTo('/board/users/register', $data);
         }
         try {
             $user = new UserModel();
-            $data['password'] = sha1($this->request('password'));
+            $data['password'] = sha1($request['password']);
             $user::insert($data);
-            header('Location: /board/users/login');
-            exit;
+            $this->redirectTo('/board/users/login');
         } catch (\Exception $e) {
-            Messages::setMsg('Save Data Error.', 'error');
-            $this->returnView('board.register', false);
+            $this->redirectTo('/board/users/register');
         }
     }
 
-    protected function login()
+    protected function login($request)
     {
-        $data = [
-            'email' => $this->request('email'),
-            'password' => $this->request('password'),
-        ];
-        $validator = (new Validator())->make(
-            $data,
-            $rules = [
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-            ]
-        );
+        $validator = new LoginValidate($request);
         if ($validator->fails()) {
             $data = [
                 'errors' => $validator->errors(),
             ];
-            $this->returnView('board.login', $data);
-            exit;
+            $this->redirectTo('/board/users/login', $data);
         }
         $user = new UserModel();
-        $data['password'] = sha1($this->request('password'));
+        $data['password'] = sha1($request['password']);
         $result = $user::where($data)->first();
         if ($result) {
             $_SESSION['is_logged_in'] = true;
@@ -79,12 +60,9 @@ class UsersController extends Controller
                 'name' => $result['name'],
                 'email' => $result['email'],
             ];
-            header('Location: /board');
-            exit;
+            $this->redirectTo('/board');
         }
-        Messages::setMsg('Login Error.', 'error');
         $this->returnView('board.login', false);
-        exit;
     }
 
     protected function logout()
@@ -93,7 +71,7 @@ class UsersController extends Controller
 
         session_destroy();
         // Redirect
-        header('Location: /');
+        $this->redirectTo('/');
     }
     public function showProfile()
     {
@@ -104,6 +82,6 @@ class UsersController extends Controller
             'mobile' => '089-xxx-4321',
             'address' => 'Bang Muang,Samut Prakan,Thailand'
         ];
-        $this->returnView('profile.index',$data);
+        $this->returnView('profile.index', $data);
     }
 }
